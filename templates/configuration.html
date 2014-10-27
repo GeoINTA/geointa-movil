@@ -1,0 +1,40 @@
+<form action="" id="">
+<div bs-panel title="Configuración capas">
+<div ng-repeat="(baselayer,conf) in getMapBaseLayers()">
+	<switch
+        bs-form-control
+        ng-model="conf.visible"
+        ng-click="layerConfigurationChange('{{baselayer}}')"
+        label="{{baselayer}}"
+        label-class="col-xs-3 col-sm-2 col-lg-1"
+        class="col-xs-9 col-sm-10 col-lg-11" 
+        >
+        </switch>
+    </div>
+</div>
+<div bs-panel class="form-actions pull-right">
+    <div content-for="navbarAction" duplicate>
+        <button ng-click="updateMapConfiguration({{mapConfiguration}})" class="btn btn-primary">
+                Guardar configuración
+            </button>
+        </div>
+</div>
+</form>
+<div bs-panel title="Ayuda">
+    <div bs-panel title="Marcadores"></div>
+        <div class="media">
+          <a class="pull-left">
+            <img class="media-object" src="./img/current_marker.png" alt="...">
+          </a>
+          <div class="media-body">
+            <h4 class="media-heading">Ubicacion actual</h4>
+        </div>
+        <div class="media">
+          <a class="pull-left">
+            <img class="media-object" src="./img/default_marker.png" alt="...">
+          </a>
+          <div class="media-body">
+            <h4 class="media-heading">Ubicaciones guardadas</h4>
+        </div>
+</div>
+</div>

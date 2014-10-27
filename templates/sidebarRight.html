@@ -1,0 +1,25 @@
+<div class="scrollable">
+  <div class="scrollable-content">
+    <div class="list-group" toggle="off" bubble target="rightSidebar">
+    <h2 class="app-name">Ubicaciones</h2>
+    <a ng-click="getCurrentPositionInfo()" class="btn btn-primary justified">Pedir información posición actual</a>
+    <h3 class="app-name sidebar-text-second">Ubicaciones guardadas</h3>
+    <div ng-repeat="ubication in ubications track by $index">
+      <a class="list-group-item media" ng-click="go('/ubication/' + ubication.id)">
+        <div class="pull-left">
+          <i class="fa fa-map-marker chat-user-avatar"></i>
+        </div>
+        <div class="media-body">
+              <p class="media-heading">{{ubication.name}}</p>
+        </div>
+      </a>
+      <a href="">
+          <div class="pull-right">
+        </div>
+      </a>
+    </div>
+    <h3 class="app-name sidebar-text-second">Acciones</h3>
+    <a ng-click="exportUbicationsData()" class="btn btn-primary justified">Exportar datos</a>
+    </div>
+  </div>
+</div>

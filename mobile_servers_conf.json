@@ -1,0 +1,24 @@
+{
+	"servidores":[
+	{
+		"url":"http://geointa.inta.gov.ar/geoserver/wms",
+		"capas":[{
+				"nombre": "geointa:suelos_argentina", 
+                "cobertura": "nac",
+                "atributos": {"posta en el ws": "label"},
+                "categoria":"Suelos"
+                }
+		]
+	},
+	{
+		"url":"http://geointa.inta.gov.ar/geoserver/wms",
+		"capas":[{
+				"nombre": "geointa:suelos_argentina", 
+                "cobertura": "nac",
+                "atributos": {"posta en el ws": "label"},
+                "categoria":"Suelos"
+                }
+		]
+	}
+	]
+}

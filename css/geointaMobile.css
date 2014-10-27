@@ -1,0 +1,35 @@
+.geointamap {
+      height: 100%;
+      width: 100%;
+position: relative;
+}
+
+.app{
+	background: #FFF;
+}
+
+.detalleInfoContainer{
+	height: 100%;
+	width: 100%;
+}
+
+.app-content{
+	width: 100%;
+	height: 100%;
+}
+
+.popup{
+	padding-bottom: 45px;
+}
+
+.ubicationControls{
+	background: #3A84FE;
+}
+
+.ubicationControls .btn{
+	color:#FFF;
+}
+
+.sidebar-text-second{
+	font-size: 18px;
+}

@@ -1,0 +1,58 @@
+<div class="scrollable">
+ <div class="scrollable-content section">
+ 	<form action="" id="" name="aUbication">
+	    <div bs-panel title="Nueva Ubicación">
+			<input 
+	       bs-form-control
+	       type="text" 
+	       ng-model="newUbication.coords"
+	       ng-disabled="true"
+	        label="Coordenadas" 
+	        label-class="col-xs-3 col-sm-2 col-lg-1" 
+	        class="col-xs-9 col-sm-10 col-lg-11"
+	        required
+       		/>
+	       <input 
+	       bs-form-control
+	       type="text" 
+	       ng-model="newUbication.name"
+	        label="Nombre" 
+	        label-class="col-xs-3 col-sm-2 col-lg-1" 
+	        class="col-xs-9 col-sm-10 col-lg-11"
+	        placeholder="Escribe un nombre para la ubicación"
+	        required
+       		/>
+       	  	<textarea type="text" placeholder="Escribe una breve descripción para la ubicación" ng-model="newUbication.description" label="Descripción" bs-form-control required></textarea>
+	    </div>
+	    <div bs-panel title="Información recibida">
+        
+			  <div class="panel-group" id="accordion">
+    <div class="panel panel-default" ng-repeat="(infokey, infovalue) in newUbication.info">
+        <div class="panel-heading" toggle target="newUbication_detail_{{$index}}">
+          <h4 class="panel-title">
+              {{infokey}}
+          </h4>
+        </div>
+          <div id="newUbication_detail_{{$index}}" toggleable active-class="in" exclusion-group="accordion1" ng-class="{in: $index == 0}" class="panel-collapse collapse">
+            <div class="panel-body" ng-repeat="(datakey, datavalue) in infovalue">
+                    <div class="media">
+                      <div class="media-body">
+                        <h4 class="media-heading">{{datakey}}</h4>
+                          {{datavalue}}
+                      </div>
+                    </div>
+            </div>
+          </div>
+    </div>
+  </div>	
+       	</div>
+   	   <div bs-panel class="form-actions">
+      	<div content-for="navbarAction" duplicate>
+       	 	<button ng-click="persistNewUbication()" class="btn btn-primary">
+          		Guardar ubicación
+        	</button>
+      	</div>
+    	</div>
+	</form>
+ </div>
+</div>

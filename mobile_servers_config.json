@@ -1,0 +1,36 @@
+{
+  'servidores':[ {
+        'url': 'http://geointa.inta.gov.ar/geoserver/wms',
+        'capas': [
+            { 
+                'nombre': 'geointa:suelos_argentina', 
+                'cobertura': 'nac',
+                'atributos': {'posta en el ws': 'label'},
+                'categoria':'Suelos'
+            },
+            {
+                'nombre': 'geointa:suelos_bs_as',
+                'cobertura': 'provincial',
+                'region': [60],
+                'atributos': {'posta en el ws': 'label'},
+                'categoria':'Suelos'
+            }
+        ]},{
+        'url': 'http://geointa.inta.gov.ar/geoserversf/wms',
+        'capas': [
+            { 
+                'nombre': 'geointa:suelos_argentina', 
+                'cobertura': 'nac',
+                'atributos': {'posta en el ws': 'label'},
+                'categoria':'Suelos'
+            },
+            {
+                'nombre': 'geointa:suelos_bs_as',
+                'cobertura': 'provincial',
+                'region': [60], //es una lista de ids de provincias que salen del shape de provincias existente en la db
+                'atributos': {'posta en el ws': 'label'},
+                'categoria':'Suelos'
+            }
+        ]}
+        ] //Fin servidores
+}
