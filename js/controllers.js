@@ -1,6 +1,7 @@
 
 
 var getInfoPosActualError = ["ERROR","No ha definido su posición actual. Para hacerlo, haga click sobre un punto del mapa o sobre el icono de geolocalización de la barra inferior del sitio."];
+var middlewareNoRouteError = ["ERROR","No ha sido posible comunicarse con el servidor GeoINTA. Por favor, intente nuevamente mas tarde"];
 var requestingGeolocation = ["Geolocalización","Pidiendo ubicación del usuario"];
 var requestingGeolocationError = ["Error de geolocalización","No se ha podido pedir la ubicación del usuario. Chequee que ha proporcionado el permiso para utilizar esta opción"];
 var requestingCurrentUbicationInfo = ["Pidiendo información de la posición actual","Por favor, espere hasta que se complete la operación"];
@@ -42,7 +43,7 @@ var extraUbication = {
 
 angular.module('geointa.controllers', [])
     .controller('MainController', ['$scope', '$rootScope','$routeParams', '$window', '$location','Ubication','GeoINTAMap', function ($scope, $rootScope,$routeParams, $window, $location,Ubication,GeoINTAMap) {
-        $scope.ubications = Ubication.query();
+        $rootScope.ubications = Ubication.query();
         $rootScope.mapConfiguration = GeoINTAMap.getConfiguration();
         $rootScope.sidebarScope = null;
 
@@ -144,9 +145,7 @@ angular.module('geointa.controllers', [])
 
 
         $rootScope.testing = function(){
-          $rootScope.updateOverlayInfo(["1","1"],true,true);
-          $rootScope.showOverlay('off',false);
-          $rootScope.updateOverlayInfo(["2","2"],true,true);
+          console.log("HOLA");
         }
 
 
@@ -158,6 +157,7 @@ angular.module('geointa.controllers', [])
         $rootScope.receiveUbicationInfo = function(coords,data){
           if (data){ // Se recibio un JSON con informacion de una ubicacion
             console.log(data);
+            data.timestamp = $rootScope.getTimestamp();
             $rootScope.newUbication = data;
             $rootScope.newUbication.coords = ol.proj.transform(coords, 'EPSG:900913', 'EPSG:4326');
             $rootScope.newUbication.id = Ubication.getNextID();
@@ -172,6 +172,33 @@ angular.module('geointa.controllers', [])
             $rootScope.updateOverlayInfo(requestGeolocationServerError,true,true);
           }
         } 
+        
+        $rootScope.getTimestamp = function(){
+          var now     = new Date(); 
+          var year    = now.getFullYear();
+          var month   = now.getMonth()+1; 
+          var day     = now.getDate();
+          var hour    = now.getHours();
+          var minute  = now.getMinutes();
+          var second  = now.getSeconds(); 
+          if(month.toString().length == 1) {
+              var month = '0'+month;
+          }
+          if(day.toString().length == 1) {
+              var day = '0'+day;
+          }   
+          if(hour.toString().length == 1) {
+              var hour = '0'+hour;
+          }
+          if(minute.toString().length == 1) {
+              var minute = '0'+minute;
+          }
+          if(second.toString().length == 1) {
+              var second = '0'+second;
+          }   
+          var dateTime = year+'/'+month+'/'+day+' '+hour+':'+minute+':'+second;   
+           return dateTime;
+        }
 
         $rootScope.getCurrentPositionInfo = function(){
             var coords;
@@ -179,10 +206,14 @@ angular.module('geointa.controllers', [])
                 params = $scope.getMapExtentParams(coords,$rootScope.map.getMapExtent(),GeoINTAMap.getConfiguration().currentXY,$rootScope.map.map.getSize());
                 $rootScope.updateOverlayInfo(requestingCurrentUbicationInfo,true);
                 Ubication.requestCoordsInfo(params,function(response){
-                if (response.code == 200){
-                  $rootScope.receiveUbicationInfo(coords,response); // coordenadas en 900913
-                } else {
-                  $rootScope.showMiddlewareResponseError(response);
+				if (response){ // Se recibio respuesta
+					if (response.code == 200){
+					  $rootScope.receiveUbicationInfo(coords,response); // coordenadas en 900913
+					} else {
+					  $rootScope.showMiddlewareResponseError(response);
+					}
+				} else { // No se alcanzo al middleware o hubo un error
+                    $rootScope.updateOverlayInfo(middlewareNoRouteError,true,true);
                 }
               });
             } else {
@@ -319,7 +350,7 @@ angular.module('geointa.controllers', [])
       var mapZoom = ($routeParams.zoom) ? $routeParams.zoom : defaultMapZoom;
       
       // Inicio mapa
-      $rootScope.map = GeoINTAMap.getMap('geointamap',mapCenter,mapZoom,$scope.ubications,$rootScope.mapConfiguration);
+      $rootScope.map = GeoINTAMap.getMap('geointamap',mapCenter,mapZoom,$rootScope.ubications,$rootScope.mapConfiguration);
       
       ////////////////////////////////////////////////////////////////////
 
@@ -335,14 +366,19 @@ angular.module('geointa.controllers', [])
             $rootScope.updateOverlayInfo(requestingCurrentUbicationInfo,true);
             Ubication.requestCoordsInfo(params,function(response){
               // callback success 
-              if (response.code == 200){
-                  ubication.info = response.info;
-                  Ubication.updateUbicationInfo(ubication);
-                  $rootScope.showOverlay('off');
-                  $scope.ubication = ubication;
-              } else {
-                $rootScope.showMiddlewareResponseError(response);
-              }
+              if (response){ // Se recibio respuesta
+				  if (response.code == 200){
+					  ubication.info = response.info;
+					  ubication.timestamp = $rootScope.getTimestamp();
+					  Ubication.updateUbicationInfo(ubication);
+					  $rootScope.showOverlay('off');
+					  $scope.ubication = ubication;
+				  } else {
+					$rootScope.showMiddlewareResponseError(response);
+				  }
+			  } else {
+				  $rootScope.updateOverlayInfo(middlewareNoRouteError,true,true);
+			  }
           });
         }
     }]) // Termina DetalleUbicacionesCtrl

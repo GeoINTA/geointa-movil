@@ -196,7 +196,8 @@ angular.module('geointa.factories', [])
                     },
                     updateUbicationInfo: function(ubication){
                         var ubicationList =  getLocalStorageUbications();
-                        for (i = 0; i < ubicationList.length; i++) {
+                        console.log(ubicationList);
+                        for (var i = 0; i < ubicationList.length; i++) {
                             if (ubicationList[i].id === ubication.id) {
                                 ubicationList[i] = ubication;
                                 break;
@@ -238,20 +239,20 @@ angular.module('geointa.factories', [])
             this.vectorCurrentPosMarkerSource = null;
             this.iconDefaultStyle = new ol.style.Style({
                     image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                    anchor: [0.5, 30],
+                    anchor: [0.5, 32],
                     anchorXUnits: 'fraction',
                     anchorYUnits: 'pixels',
                     opacity: 1,
-                    src: './img/default_marker.png'
+                    src: './img/marker-green-small.png'
                     }))
             });
             this.iconCurrentPosStyle = new ol.style.Style({
                     image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                    anchor: [0.5, 30],
+                    anchor: [0.5, 32],
                     anchorXUnits: 'fraction',
                     anchorYUnits: 'pixels',
                     opacity: 1,
-                    src: './img/current_marker.png'
+                    src: './img/marker-blue-small.png'
                     }))
             });
             this.vectorUbicationsLayer = null;
