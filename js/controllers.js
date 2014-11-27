@@ -233,9 +233,9 @@ angular.module('geointa.controllers', [])
                 case 504: // TIMEOUT_ERROR . Los servidores no han respondido
                            $rootScope.updateOverlayInfo(infoMiddlewareTimeout,true,true);
                            break;
-			    case 501: // NO_DATA . Los servidores no retornaron informacion para esa ubicacion
-						   $rootScope.updateOverlayInfo(infoMiddlewareNoData,true,true);
-						   break;
+			         case 501: // NO_DATA . Los servidores no retornaron informacion para esa ubicacion
+          						   $rootScope.updateOverlayInfo(infoMiddlewareNoData,true,true);
+          						   break;
                 case 400: // BAD_REQUEST_CODE. El cliente realizo una mala peticion (faltan parametros)
                            $rootScope.updateOverlayInfo(infoMiddlewareBadRequest,true,true);
                            break;                           
@@ -293,8 +293,8 @@ angular.module('geointa.controllers', [])
           params.bbox = $rootScope.extentToBBOX(extent);
           params.width = mapSize[0];
           params.height = mapSize[1];
-          params.x = xy[0];
-          params.y = xy[1];
+          params.x = Math.round(xy[0]);
+          params.y = Math.round(xy[1]);
           return params;
         }
 
