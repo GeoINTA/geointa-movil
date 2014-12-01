@@ -4,7 +4,7 @@
 
 
 
-var urlMiddlewareGeoINTAMobile = 'https://172.22.20.135/gestor/mobileservice?callback=JSON_CALLBACK';
+var urlMiddlewareGeoINTAMobile = 'http://movil.geointa.inta.gob.ar/gestor/mobileservice?callback=JSON_CALLBACK';
 
 var localStorageConfiguration = "geoINTAMapConfiguration";
 var localStorageUbications = "geoINTAUbications";

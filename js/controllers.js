@@ -151,7 +151,7 @@ angular.module('geointa.controllers', [])
 
         $rootScope.callScope = function(sidebarScope){
           $rootScope.sidebarScope = {"scope": sidebarScope};
-          console.log(sidebarScope);
+          
         }
 
         $rootScope.receiveUbicationInfo = function(coords,data){
@@ -288,8 +288,9 @@ angular.module('geointa.controllers', [])
         $scope.getMapExtentParams = function(coords,extent,xy,mapSize){
           var params = {};
           var coords = ol.proj.transform(coords, 'EPSG:900913', 'EPSG:4326');
-          params.lat = coords[0];
-          params.lng = coords[1];
+	  
+          params.lng = coords[0];
+          params.lat = coords[1];
           params.bbox = $rootScope.extentToBBOX(extent);
           params.width = mapSize[0];
           params.height = mapSize[1];
