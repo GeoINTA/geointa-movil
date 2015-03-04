@@ -8,6 +8,10 @@ position: relative;
 	background: #FFF;
 }
 
+.panel-group {
+    margin-bottom: 80px;
+}
+
 .detalleInfoContainer{
 	height: 100%;
 	width: 100%;
