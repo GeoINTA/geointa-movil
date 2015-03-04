@@ -330,7 +330,13 @@ angular.module('geointa.controllers', [])
               var newFeature = {
                 "type":"Feature",
                 "geometry":{"type":"Point","coordinates":ol.proj.transform(ubData.coords, 'EPSG:900913', 'EPSG:4326')},
-                "properties":{"name":ubData.name,"description":ubData.description,"info":ubData.info},
+                "properties":{"name":ubData.name,"description":ubData.description},
+              }
+              for (type in ubData.info){
+                for (params in ubData.info[type]){
+                  key = type + "." + params;
+                  newFeature["properties"][key] = ubData.info[type][params];  
+                }
               }
               data.features.push(newFeature);
           }
