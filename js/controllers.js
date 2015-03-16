@@ -344,6 +344,12 @@ angular.module('geointa.controllers', [])
        }
 
 
+      $rootScope.noSort = function(obj){
+        if (!obj) {
+            return [];
+        }
+        return Object.keys(obj);
+      }
 
       /////////////// CARGA DEL MAPA ///////////////////////////////////
 
