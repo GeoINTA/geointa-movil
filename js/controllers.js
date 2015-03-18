@@ -333,9 +333,11 @@ angular.module('geointa.controllers', [])
                 "properties":{"name":ubData.name,"description":ubData.description},
               }
               for (type in ubData.info){
-                for (params in ubData.info[type]){
-                  key = type + "." + params;
-                  newFeature["properties"][key] = ubData.info[type][params];  
+                for (layer in ubData.info[type]){
+                  for (params in ubData.info[type][layer]){
+                    key = type + "." + params;
+                    newFeature["properties"][key] = ubData.info[type][layer][params]; 
+                  } 
                 }
               }
               data.features.push(newFeature);

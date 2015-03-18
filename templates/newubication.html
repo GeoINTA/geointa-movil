@@ -37,7 +37,7 @@
 	    </div>
 	    <div bs-panel title="Información recibida">
 			  <div class="panel-group" id="accordion">
-          <div class="panel panel-default" ng-repeat="(infokey, infovalue) in newUbication.info" ng-include="'templates/ubicationInfoDetail.html'">
+          <div class="panel panel-primary" ng-repeat="(categoryName, layers) in newUbication.info" ng-include="'templates/ubicationInfoDetail.html'">
           </div>
         </div>	
        	</div>

@@ -1,21 +1,22 @@
 <div class="panel-heading" toggle target="ubication_detail_{{$index}}">
   <h4 class="panel-title">
-      {{infokey}}
+      {{categoryName}} <!-- nombre categoria -->
   </h4>
 </div>
 <div id="ubication_detail_{{$index}}" toggleable active-class="in" exclusion-group="accordion1" ng-class="{in: $index == 0}" class="panel-collapse collapse">
-<div class="panel-body" ng-repeat="key in noSort(infovalue)" ng-init="value = infovalue[key]">
-  <div class="media">
-    <div class="media-body">
-      <h4 class="media-heading">{{key}}</h4>
-        
-
-<div ng-switch="key">
-  <a ng-switch-when="Metadatos" href="{{value}}">Ver enlace externo</a>
-  <span ng-switch-default>{{value}}</span>
-</div>
-
-
+<div class="panel-body" ng-repeat="layerName in noSort(layers)" ng-init="attrs = layers[layerName]">
+    <h3 class="panel-title">{{layerName}}</h3> <!-- nombre capa -->
+    <div class="well">
+    <div class="media" ng-repeat="attrKey in noSort(attrs)" ng-init="attrValue = attrs[attrKey]">
+      <div class="media-body">
+        <h4 class="media-heading">{{attrKey}}</h4>
+          <div ng-switch="attrKey">
+          <a ng-switch-when="Metadatos" href="{{attrValue}}">Ver enlace externo</a>
+          <span ng-switch-default>{{attrValue}}</span>
+        </div>
+        </div>
+      </div>
+    </div>
     </div>
   </div>
 </div>
