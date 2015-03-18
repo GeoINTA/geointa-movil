@@ -37,22 +37,7 @@
 	    </div>
 	    <div bs-panel title="Información recibida">
 			  <div class="panel-group" id="accordion">
-          <div class="panel panel-default" ng-repeat="(infokey, infovalue) in newUbication.info">
-              <div class="panel-heading" toggle target="newUbication_detail_{{$index}}">
-                <h4 class="panel-title">
-                    {{infokey}}
-                </h4>
-              </div>
-                <div id="newUbication_detail_{{$index}}" toggleable active-class="in" exclusion-group="accordion1" ng-class="{in: $index == 0}" class="panel-collapse collapse">
-                  <div class="panel-body" ng-repeat="key in noSort(infovalue)" ng-init="value = infovalue[key]">
-                          <div class="media">
-                            <div class="media-body">
-                              <h4 class="media-heading">{{key}}</h4>
-                                {{value}}
-                            </div>
-                          </div>
-                  </div>
-                </div>
+          <div class="panel panel-default" ng-repeat="(infokey, infovalue) in newUbication.info" ng-include="'templates/ubicationInfoDetail.html'">
           </div>
         </div>	
        	</div>
