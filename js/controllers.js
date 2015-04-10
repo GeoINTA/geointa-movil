@@ -47,6 +47,8 @@ angular.module('geointa.controllers', [])
         $rootScope.mapConfiguration = GeoINTAMap.getConfiguration();
         $rootScope.sidebarScope = null;
 
+        $scope.showWelcomeOverlay = true;
+
         // ----- FUNCIONES GLOBALES   -------  //
         $rootScope.go = function(path){
               $location.url(path);
@@ -366,6 +368,9 @@ angular.module('geointa.controllers', [])
       
       // Inicio mapa
       $rootScope.map = GeoINTAMap.getMap('geointamap',mapCenter,mapZoom,$rootScope.ubications,$rootScope.mapConfiguration);
+
+      // Muestro overlay de bienvenida
+      $rootScope.toggle('welcomeOverlay', 'on');
       
       ////////////////////////////////////////////////////////////////////
 

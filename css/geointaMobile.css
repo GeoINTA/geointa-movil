@@ -37,3 +37,12 @@ position: relative;
 .sidebar-text-second{
 	font-size: 18px;
 }
+
+#welcomeOverlay .overlay-dismiss{
+    visibility: hidden;
+}
+
+#welcomeOverlayImage{
+    max-width: 30%;
+    padding-bottom: 50px;
+}

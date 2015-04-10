@@ -28,8 +28,6 @@
     <script src="./js/mobile-angular-ui.min.js"></script>
   </head>
 <body  ng-app="geointaApp" ng-controller="MainController">
-
-
   <div ng-include src="getSidebarRight()" class="sidebar sidebar-right" toggleable parent-active-class="sidebar-right-in" id="rightSidebar"></div>
 
 
@@ -51,8 +49,7 @@
         <div class="btn-group justified">
           <a ng-click="requestUserGeolocation()" class="btn btn-navbar btn-icon-only"><i class="fa fa-crosshairs fa-navbar"></i></a>
           <a ng-click="go('/')" class="btn btn-navbar btn-icon-only"><i class="fa fa-globe fa-navbar"></i></a>
-
-          <a ng-click="go('/configuration')" class="btn btn-navbar btn-icon-only"><i class="fa fa-cog fa-navbar"></i></a>
+          <!--<a ng-click="go('/configuration')" class="btn btn-navbar btn-icon-only"><i class="fa fa-cog fa-navbar"></i></a>-->
         </div>
       </div>
 
@@ -69,6 +66,15 @@
   </p>
   <p ng-show="{{showOverlayButton}}" toggle="off" bubble target="generalOverlay">
     <span class="btn btn-primary">Ok</span>
+  </p>  
+</div>
+
+<div overlay="welcomeOverlay">
+<img id="welcomeOverlayImage" src="img/logo.png"></img>
+  <p>Bienvenido a GeoINTA Móvil</p>
+  <p>Descripcion pipo</p>
+  <p toggle="off" bubble target="welcomeOverlay">
+    <span class="btn btn-primary">Ingresar</span>
   </p>  
 </div>
 
