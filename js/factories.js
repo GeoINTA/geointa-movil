@@ -353,6 +353,10 @@ angular.module('geointa.factories', [])
                   }
             },this)
 
+            this.map.on('moveend', function(e){
+                this.updateMapLastParameters();
+            },this);
+
 
 
         } 
@@ -430,6 +434,14 @@ angular.module('geointa.factories', [])
                 this.configuration.currentUbication = null;
                 this.updateMapConfiguration();
             }
+        }
+
+        // Metodo que toma el centro del mapa, y su zoom, y los guarda en localstorage,
+        // para luego volver al mismo lugar, en caso de cambiar de pantalla
+        OLMap.prototype.updateMapLastParameters = function(){
+            this.configuration.mapLastCenter = this.map.getView().getCenter();
+            this.configuration.mapLastZoom = this.map.getView().getZoom();
+            this.updateMapConfiguration();
         }
 
         OLMap.prototype.getCurrentPosCoords = function(){

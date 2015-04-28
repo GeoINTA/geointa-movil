@@ -362,17 +362,24 @@ angular.module('geointa.controllers', [])
         return Object.keys(obj);
       }
 
+      // Retorna 
+      $scope.getLastMapZoom = function(){
+
+      }
+
       /////////////// CARGA DEL MAPA ///////////////////////////////////
 
       var mapCenter;
       if ($routeParams.lat && $routeParams.lng){
         var latlng = [parseFloat($routeParams.lat),parseFloat($routeParams.lng)];
-          mapCenter  = ol.proj.transform(latlng,'EPSG:4326', 'EPSG:900913');
+        var mapCenter  = ol.proj.transform(latlng,'EPSG:4326', 'EPSG:900913');
+        var mapZoom = ($routeParams.zoom) ? $routeParams.zoom : defaultMapZoom;
       } else {
-          mapCenter = $rootScope.mapConfiguration.currentUbication || defaultMapCenter; // Centro en ubicacion actual o sino en la ubic por defecto
+          //mapCenter = $rootScope.mapConfiguration.currentUbication || defaultMapCenter; // Centro en ubicacion actual o sino en la ubic por defecto
+          mapCenter = $rootScope.mapConfiguration.mapLastCenter || defaultMapCenter;
+          var mapZoom = $rootScope.mapConfiguration.mapLastZoom || defaultMapZoom;
       }
-      var mapZoom = ($routeParams.zoom) ? $routeParams.zoom : defaultMapZoom;
-
+      
       // Inicio mapa
       $rootScope.map = GeoINTAMap.getMap('geointamap',mapCenter,mapZoom,$rootScope.ubications,$rootScope.mapConfiguration);
 
