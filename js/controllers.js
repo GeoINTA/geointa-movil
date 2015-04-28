@@ -20,7 +20,7 @@ var HOME_PATH = "/home";
 var defaultMapCenter = [-6673603.47305675,-4154372.4878888335];
 var defaultMapZoom = 4;
 
-var extraUbication = {
+/*var extraUbication = {
              "coords":[-8059626.28615,-3854142.48339],
              "info": {
                     "Información Global":[
@@ -38,16 +38,17 @@ var extraUbication = {
                         {"data":"Densidad" ,"value":3.5}
                     ],
                 },
-            }
+            }*/
 
 
 angular.module('geointa.controllers', [])
+    .controller('IndexController', ['$scope', '$rootScope','$routeParams', function ($scope, $rootScope,$routeParams) {
+          $rootScope.showWelcomeOverlay = true;
+     }]) 
     .controller('MainController', ['$scope', '$rootScope','$routeParams', '$window', '$location','Ubication','GeoINTAMap', function ($scope, $rootScope,$routeParams, $window, $location,Ubication,GeoINTAMap) {
         $rootScope.ubications = Ubication.query();
         $rootScope.mapConfiguration = GeoINTAMap.getConfiguration();
         $rootScope.sidebarScope = null;
-
-        $scope.showWelcomeOverlay = true;
 
         // ----- FUNCIONES GLOBALES   -------  //
         $rootScope.go = function(path){
@@ -67,27 +68,29 @@ angular.module('geointa.controllers', [])
       // Metodo invocado al cambiar la configuracion de las capas del mapa (seccion configuration)
       // Se debe tener en cuenta que las capas bases son excluyentes,
       // por lo tanto, en todo momento debe existir solo una capa base activa.
-      $rootScope.layerConfigurationChange = function(layerChangedName){
-        var layerChangedState = $scope.mapConfiguration.layers[layerChangedName].visible;
-        if (layerChangedState){ // Se acaba de activar una capa
-            $.each($scope.mapConfiguration.layers, function(layerName, value) {
-                if (layerName != layerChangedName){
-                    $scope.mapConfiguration.layers[layerName].visible = false;
-                }
-            }); 
-        } else { // Se desactivo la capa que estaba activa, activo otra
-            var count = 0;
-            $.each($scope.mapConfiguration.layers, function(layerName, value) {
-                // Activo la primer capa que encuentro
-                if (layerName != layerChangedName){
-                  count += 1;
-                  $scope.mapConfiguration.layers[layerName].visible = true;
-                  return false;
-                }
-            });
-            if (count == 0){ // Si existe una unica capa, no dejo que se desactive
-                $scope.mapConfiguration.layers[layerChangedName].visible = true
-            }
+      $rootScope.layerConfigurationChange = function(layerChangedName,isBaseLayer){
+        if (isBaseLayer){
+          var layerChangedState = $scope.mapConfiguration.layers[layerChangedName].visible;
+          if (layerChangedState){ // Se acaba de activar una capa
+              $.each($scope.mapConfiguration.layers, function(layerName, value) {
+                  if (layerName != layerChangedName){
+                      $scope.mapConfiguration.layers[layerName].visible = false;
+                  }
+              }); 
+          } else { // Se desactivo la capa que estaba activa, activo otra
+              var count = 0;
+              $.each($scope.mapConfiguration.layers, function(layerName, value) {
+                  // Activo la primer capa que encuentro
+                  if (layerName != layerChangedName){
+                    count += 1;
+                    $scope.mapConfiguration.layers[layerName].visible = true;
+                    return false;
+                  }
+              });
+              if (count == 0){ // Si existe una unica capa, no dejo que se desactive
+                  $scope.mapConfiguration.layers[layerChangedName].visible = true
+              }
+          }
         }
       }
 
@@ -277,6 +280,10 @@ angular.module('geointa.controllers', [])
             return $rootScope.mapConfiguration.layers;
         }
 
+        $rootScope.getMapInfoLayers = function(){
+          return $rootScope.mapConfiguration.infoLayers;
+        }
+
 
         // Recibe un extent [minx,miny,maxx,maxy] y lo convierte en un bbox
         // en formato "minx,miny,maxx,maxy" (String)
@@ -365,12 +372,16 @@ angular.module('geointa.controllers', [])
           mapCenter = $rootScope.mapConfiguration.currentUbication || defaultMapCenter; // Centro en ubicacion actual o sino en la ubic por defecto
       }
       var mapZoom = ($routeParams.zoom) ? $routeParams.zoom : defaultMapZoom;
-      
+
       // Inicio mapa
       $rootScope.map = GeoINTAMap.getMap('geointamap',mapCenter,mapZoom,$rootScope.ubications,$rootScope.mapConfiguration);
 
       // Muestro overlay de bienvenida
-      $rootScope.toggle('welcomeOverlay', 'on');
+      if ($rootScope.showWelcomeOverlay){
+        $rootScope.toggle('welcomeOverlay', 'on');
+        $rootScope.showWelcomeOverlay = false;
+      }
+
       
       ////////////////////////////////////////////////////////////////////
 

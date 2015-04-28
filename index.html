@@ -27,7 +27,7 @@
     <script src="./js/FileSaver.min.js"></script>
     <script src="./js/mobile-angular-ui.min.js"></script>
   </head>
-<body  ng-app="geointaApp" ng-controller="MainController">
+<body  ng-app="geointaApp" ng-controller="IndexController">
   <div ng-include src="getSidebarRight()" class="sidebar sidebar-right" toggleable parent-active-class="sidebar-right-in" id="rightSidebar"></div>
 
 
@@ -49,7 +49,7 @@
         <div class="btn-group justified">
           <a ng-click="requestUserGeolocation()" class="btn btn-navbar btn-icon-only"><i class="fa fa-crosshairs fa-navbar"></i></a>
           <a ng-click="go('/')" class="btn btn-navbar btn-icon-only"><i class="fa fa-globe fa-navbar"></i></a>
-          <!--<a ng-click="go('/configuration')" class="btn btn-navbar btn-icon-only"><i class="fa fa-cog fa-navbar"></i></a>-->
+          <a ng-click="go('/configuration')" class="btn btn-navbar btn-icon-only"><i class="fa fa-cog fa-navbar"></i></a>
         </div>
       </div>
 

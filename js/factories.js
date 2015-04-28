@@ -8,23 +8,11 @@ var urlMiddlewareGeoINTAMobile = 'http://movil.geointa.inta.gob.ar/gestor/mobile
 
 var localStorageConfiguration = "geoINTAMapConfiguration";
 var localStorageUbications = "geoINTAUbications";
-
+var bingKey = 'An980uGYXOk9yd-vHLUeV2J_ebho9xTXZObprH56yX3FQrhw_FxHYBPQVVvB4TG8';
 
 
 var baseLayers =  {
-     'Capa Satelite':{
-        construct:function(config){
-            return new ol.layer.Tile({
-                source: new ol.source.MapQuest({layer: 'sat'}),
-                name:'Capa Satelite',
-                visible:config.visible,
-                opacity:config.opacity,
-
-            })
-        },
-        'defaultConfig':{'visible':true,'opacity':1},
-     },
-      'Capa Estados':{
+      'Open Street Map':{
         construct:function(config){
             return new ol.layer.Tile({
               preload: 4,
@@ -34,8 +22,53 @@ var baseLayers =  {
             })
         },
         'defaultConfig':{'visible':false,'opacity':1},
-     }
+     },
+    'Aereo con etiquetas':{
+        construct:function(config){
+            return new ol.layer.Tile({
+                source: new ol.source.BingMaps({
+                  key: bingKey,
+                  imagerySet: 'AerialWithLabels'
+                }),
+                name:'BingAerialLabels',
+                visible:config.visible,
+                opacity:config.opacity,
+            })
+        },
+        'defaultConfig':{'visible':true,'opacity':1},
+     },
+    'Aéreo':{
+        construct:function(config){
+            return new ol.layer.Tile({
+                source: new ol.source.BingMaps({
+                  key: bingKey,
+                  imagerySet: 'Aerial'
+                }),
+                name:'BingAerial',
+                visible:config.visible,
+                opacity:config.opacity,
+            })
+        },
+        'defaultConfig':{'visible':false,'opacity':1},
+     },
+}
 
+var infoLayers =  {
+     'LLuvias estaciones':{
+        construct:function(config){
+            return new ol.layer.Tile({
+                source: new ol.source.TileWMS(/** @type {olx.source.TileWMSOptions} */ ({
+                  url: 'http://geointa.inta.gov.ar/geoserver/geointa/wms',
+                  params: {'LAYERS': 'geointa:lluvias_hoy','VERSION':'1.1.1','SRS':'900913','STYLES':'','BUFFER':48},
+                  serverType: 'geoserver',
+                })),
+                name: 'stationsnobase',
+                visible:config.visible,
+                opacity:config.opacity,
+              })
+        },
+        'defaultConfig':{'visible':true,'opacity':1},
+     }
 
 }
 
@@ -270,6 +303,7 @@ angular.module('geointa.factories', [])
                             target: target,
                             layers: [
                               this.initBaseLayers(),
+                              this.initInfoLayers(),
                               this.vectorUbicationsLayer,
                               this.vectorCurrentPosLayer,
                             ],
@@ -323,7 +357,7 @@ angular.module('geointa.factories', [])
 
         } 
 
-
+        // Agrega al mapa las capas bases (excluyentes entre si)
         OLMap.prototype.initBaseLayers = function(){
           var layers = [];
           for (var layerName in baseLayers){
@@ -333,6 +367,17 @@ angular.module('geointa.factories', [])
           var layersGroup = new ol.layer.Group({layers:layers});
           return layersGroup;
 
+        }
+
+        // Agrega al mapa capas no base
+        OLMap.prototype.initInfoLayers = function(){
+          var layers = [];
+          for (var layerName in  infoLayers){
+                var layer = infoLayers[layerName].construct(this.configuration['infoLayers'][layerName]);
+                layers.push(layer);
+          }
+          var layersGroup = new ol.layer.Group({layers:layers});
+          return layersGroup;
         }
 
         OLMap.prototype.initVectorCurrentPosLayer = function(){
@@ -431,9 +476,13 @@ angular.module('geointa.factories', [])
                         'mapCenter':[-6673603.47305675,-4154372.4878888335], // por defecto [-59.95,-34.93]
                         'mapZoom':'4',
                         'layers':{},
+                        'infoLayers':{}
                     };
                     for (var layerName in baseLayers){
                         conf['layers'][layerName] = baseLayers[layerName]['defaultConfig'];
+                    }
+                    for (var layerName in infoLayers){
+                        conf['infoLayers'][layerName] = infoLayers[layerName]['defaultConfig'];
                     }
                     // Persisto en localStorage la configuracion por defecto
                     localStorage.setItem(localStorageConfiguration,JSON.stringify(conf));
