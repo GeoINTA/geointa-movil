@@ -44,11 +44,14 @@ var defaultMapZoom = 4;
 angular.module('geointa.controllers', [])
     .controller('IndexController', ['$scope', '$rootScope','$routeParams', function ($scope, $rootScope,$routeParams) {
           $rootScope.showWelcomeOverlay = true;
+
+          $scope.appDescription = "Ingresar descripcion";
      }]) 
     .controller('MainController', ['$scope', '$rootScope','$routeParams', '$window', '$location','Ubication','GeoINTAMap', function ($scope, $rootScope,$routeParams, $window, $location,Ubication,GeoINTAMap) {
         $rootScope.ubications = Ubication.query();
         $rootScope.mapConfiguration = GeoINTAMap.getConfiguration();
         $rootScope.sidebarScope = null;
+
 
         // ----- FUNCIONES GLOBALES   -------  //
         $rootScope.go = function(path){
