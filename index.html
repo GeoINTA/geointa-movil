@@ -35,8 +35,8 @@
        <!-- Navbars -->
        <!-- Navbar TOP-->
        <div class="navbar navbar-app navbar-absolute-top">
-        <div class="navbar-brand navbar-brand-left">
-          <span>GeoINTA</span>
+        <div class="navbar-brand navbar-brand-left mainBrand">
+          <span ng-click="go('/')">GeoINTA</span>
         </div>
         <div class="btn-group pull-right">
           <div ng-click="toggle('rightSidebar')" class="btn btn-navbar">
@@ -69,13 +69,27 @@
   </p>  
 </div>
 
-<div overlay="welcomeOverlay">
-<img id="welcomeOverlayImage" src="img/logo.png"></img>
-  <p>Bienvenido a GeoINTA Móvil</p>
-  <p>{{appDescription}}</p>
-  <p toggle="off" bubble target="welcomeOverlay">
-    <span class="btn btn-primary">Ingresar</span>
-  </p>  
+<div class="scrollable" overlay="welcomeOverlay">
+   <div class="scrollable-content">
+  <img id="welcomeOverlayImage" src="img/logo.png"></img>
+  <div class="container-fluid welcomeContainer">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        <p id="homeAppDescriptionTitle">Bienvenido a GeoINTA Móvil</p>
+        <p id="homeAppDescription">{{appDescription}}</p>
+      </div>
+      <div id="homeFeatureDescription">
+          <div class="homeIconDescription col-xs-12 col-sm-4 col-md-offset-4"><i class="fa fa-crosshairs homeIcon pull-left"></i><p class="pull-left">  Geolocalización del dispositivo</p></div>
+          <div class="homeIconDescription col-xs-12 col-sm-4 col-md-offset-4"><i class="fa fa-globe homeIcon pull-left"></i><p class="pull-left">  Volver al mapa</p></div>
+          <div class="homeIconDescription col-xs-12 col-sm-4 col-md-offset-4"><i class="fa fa-cog homeIcon pull-left"></i><p class="pull-left">  Ir a las configuraciones</p></div>
+          <div class="homeIconDescription col-xs-12 col-sm-4 col-md-offset-4"><i class="fa fa-map-marker homeIcon pull-left"></i><p class="pull-left">  Gestionar ubicaciones</p></div>
+      </div>
+    </div>
+  </div>
+    <p toggle="off" bubble target="welcomeOverlay">
+      <span class="btn btn-primary">Ingresar</span>
+    </p>
+    </div>  
 </div>
 
 

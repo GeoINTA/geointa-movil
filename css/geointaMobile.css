@@ -46,3 +46,30 @@ position: relative;
     max-width: 30%;
     padding-bottom: 50px;
 }
+
+#homeAppDescriptionTitle{
+	font-style: bold;
+}
+
+.homeIconDescription{
+	font-size: 18px;
+}
+
+.homeIcon{
+	color:#007aff;
+	vertical-align: middle;
+}
+
+#homeFeaturedescription{
+	margin-top: 10px;
+	margin-bottom: 15px;
+}
+
+.categoryTitle{
+	color: #FFFFFF;
+}
+
+.mainBrand{
+	cursor: pointer;
+	cursor: hand;
+}
