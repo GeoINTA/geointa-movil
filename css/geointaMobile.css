@@ -73,3 +73,7 @@ position: relative;
 	cursor: pointer;
 	cursor: hand;
 }
+
+#mapMainDiv{
+	height: 100%;
+}
