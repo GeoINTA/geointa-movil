@@ -54,7 +54,7 @@ var baseLayers =  {
 }
 
 var infoLayers =  {
-     'LLuvias estaciones':{
+     'LLuvias acumulado diario (mm)':{
         construct:function(config){
             return new ol.layer.Tile({
                 source: new ol.source.TileWMS(/** @type {olx.source.TileWMSOptions} */ ({
@@ -70,75 +70,13 @@ var infoLayers =  {
         'defaultConfig':{'visible':true,'opacity':1},
      }
 
-}
-
-
-
-  var ubications = [
-            {"id": 1,
-             "name": "INTA Castelar",
-             "description": "Ubicación dentro de INTA Castelar",
-             "coords":[-8059626.28615,-3854142.48339],
-             "info": {
-                    "Información Global":[
-                        {"data":"Altura" ,"value":30},
-                        {"data":"Lluvia" ,"value":50},
-                        {"data":"Altura" ,"value":30},
-                        {"data":"Lluvia" ,"value":50},
-                    ],
-                    "Información Regional":[
-                        {"data":"Provincia" ,"value":"Buenos Aires"},
-                        {"data":"Region" ,"value":"Region I"}
-                    ],
-                    "Información Local":[
-                        {"data":"Poblacion" ,"value":30000},
-                        {"data":"Densidad" ,"value":3.5}
-                    ],
-                },
-            },
-            {"id": 2,
-             "name": "INTA Rafaela",
-             "description": "Datos Rafaela",
-             "coords":[-7686034.3383348305,-4064828.6642276105],
-                          "info": {
-                    "Información Global":[
-                        {"data":"Altura" ,"value":20},
-                        {"data":"Lluvia" ,"value":60}
-                    ],
-                    "Información Regional":[
-                        {"data":"Provincia" ,"value":"Buenos Aires"},
-                        {"data":"Region" ,"value":"Region II"}
-                    ],
-                    "Información Local":[
-                        {"data":"Poblacion" ,"value":32434},
-                        {"data":"Densidad" ,"value":1.4}
-                    ],
-                },
-            },
-            {"id": 3,
-             "name": "INTA Salta",
-             "description": "Información INTA Salta",
-             "coords": [-6624894.143027465,-4295082.328887408],
-              "info": {
-                    "Información Global":[
-                        {"data":"Altura" ,"value":10},
-                        {"data":"Lluvia" ,"value":200}
-                    ],
-                    "Información Regional":[
-                        {"data":"Provincia" ,"value":"Salta"},
-                        {"data":"Region" ,"value":"Region IV"}
-                    ],
-                },
-            },
-        ],
-
-
-        traverseCollection = function(collection,callback){
+},
+        /*traverseCollection = function(collection,callback){
             var l = collection.length, i;
             for (i = 0; i < l; i = i + 1) {
                 callback(collection[i]);
             }
-        },
+        },*/
 
         findUbicationById = function (id) {
             var ubications = getLocalStorageUbications();
@@ -173,16 +111,16 @@ var infoLayers =  {
         //    con las capas activas en la configuración global (las capas activas
         //    varian con el tiempo)
         //  - Las capas que ya tiene el cliente las dejo con las configuracion seteada por el mismo
-        sincronizeLayersConfiguration = function() {
-            var clientConfiguration = getMapConfiguration().layers; // configuracion en localStorage
-            for (var layerName in baseLayers){
+        sincronizeLayersConfiguration = function(layerList,storageKey) {
+            var clientConfiguration = getMapConfiguration()[storageKey]; // configuracion en localStorage
+            for (var layerName in layerList){
                 if (!(layerName in clientConfiguration)){
                     // Agrego capa que no existe en el cliente, con la config por defecto
-                    clientConfiguration[layerName] = baseLayers[layerName]['defaultConfig'];
+                    clientConfiguration[layerName] = layerList[layerName]['defaultConfig'];
                 }
             }
             for (var clientLayer in clientConfiguration){
-                if (!(clientLayer in baseLayers)){
+                if (!(clientLayer in layerList)){
                     // Elimino capas en el cliente que ya no existen en la config global
                     delete clientConfiguration[clientLayer];
                 }
@@ -503,8 +441,8 @@ angular.module('geointa.factories', [])
                     // - Verificar que los layers existentes en localStorage estén sinconizados
                     //    con las capas activas en la configuración global (las capas activas
                     //    varian con el tiempo)
-                    var sincronizedLayerConf = sincronizeLayersConfiguration();
-                    conf.layers = sincronizedLayerConf;
+                    conf.layers = sincronizeLayersConfiguration(baseLayers,'layers');
+                    conf.infoLayers = sincronizeLayersConfiguration(infoLayers,'infoLayers');
                     localStorage.setItem(localStorageConfiguration,JSON.stringify(conf));
                     conf = getMapConfiguration();
                 }
