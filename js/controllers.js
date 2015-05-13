@@ -45,7 +45,7 @@ angular.module('geointa.controllers', [])
     .controller('IndexController', ['$scope', '$rootScope','$routeParams', function ($scope, $rootScope,$routeParams) {
           $rootScope.showWelcomeOverlay = true;
 
-          $scope.appDescription = "Se trata de un desarrollo Web para orientado para dispositivos móviles. El objetivo es que el usuario pueda relevar información proveniente de la IDE del INTA sin contar con conocimientos previos de SIG.";
+          $scope.appDescription = "Se trata de un desarrollo Web orientado para dispositivos móviles.\n El objetivo es que el usuario pueda relevar información proveniente de la IDE del INTA sin contar con conocimientos previos de SIG.";
      }]) 
     .controller('MainController', ['$scope', '$rootScope','$routeParams', '$window', '$location','Ubication','GeoINTAMap', function ($scope, $rootScope,$routeParams, $window, $location,Ubication,GeoINTAMap) {
         $rootScope.ubications = Ubication.query();
