@@ -211,7 +211,7 @@ angular.module('geointa.controllers', [])
         $rootScope.getCurrentPositionInfo = function(){
             var coords;
             if (coords = $rootScope.map.getCurrentPosCoords()){
-                params = $scope.getMapExtentParams(coords,$rootScope.map.getMapExtent(),GeoINTAMap.getConfiguration().currentXY,$rootScope.map.map.getSize());
+                params = $rootScope.getMapExtentParams(coords,$rootScope.map.getMapExtent(),GeoINTAMap.getConfiguration().currentXY,$rootScope.map.map.getSize());
                 $rootScope.updateOverlayInfo(requestingCurrentUbicationInfo,true);
                 Ubication.requestCoordsInfo(params,function(response){
 				if (response){ // Se recibio respuesta
@@ -297,7 +297,7 @@ angular.module('geointa.controllers', [])
         // Metodo que recibe un extent, y retorna un objeto (clave->valor),
         // con todas las propiedades que son necesarios para hacer una peticion
         // GetFeatureInfo a un servidor WMS
-        $scope.getMapExtentParams = function(coords,extent,xy,mapSize){
+        $rootScope.getMapExtentParams = function(coords,extent,xy,mapSize){
           var params = {};
           var coords = ol.proj.transform(coords, 'EPSG:900913', 'EPSG:4326');
 	  
@@ -403,7 +403,7 @@ angular.module('geointa.controllers', [])
 
 
         $scope.reloadUbicationsInfo = function(ubication){
-          params = $scope.getMapExtentParams(ubication.coords,ubication.extent,ubication.xy,ubication.mapSize);
+          params = $rootScope.getMapExtentParams(ubication.coords,ubication.extent,ubication.xy,ubication.mapSize);
             $rootScope.updateOverlayInfo(requestingCurrentUbicationInfo,true);
             Ubication.requestCoordsInfo(params,function(response){
               // callback success 
