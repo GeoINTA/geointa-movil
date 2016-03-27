@@ -12,8 +12,10 @@
           No se han recibido datos en esta ubicación
         </div>
       </div>
-  <div ng-if="ubication.code == 200" class="panel panel-primary" ng-repeat="(categoryName, layers) in ubication.info" ng-include="'templates/ubicationInfoDetail.html'">
-    </div>
+      <div ng-if="ubication.code == 200">
+    <div  class="panel panel-primary" ng-repeat="(categoryName, layers) in ubication.info" ng-include="'templates/ubicationInfoDetail.html'">
+      </div>
+  </div>
   </div>
 </div>
    <div class="navbar navbar-app navbar-absolute-bottom ubicationControls">

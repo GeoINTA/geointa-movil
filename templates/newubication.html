@@ -43,9 +43,11 @@
               No se han recibido datos en esta ubicación
             </div>
         </div>
-			  <div ng-if="newUbication.code == 200" class="panel-group" id="accordion">
+        <div ng-if="newUbication.code == 200">
+			  <div class="panel-group" id="accordion">
           <div class="panel panel-primary " ng-repeat="(categoryName, layers) in newUbication.info" ng-include="'templates/ubicationInfoDetail.html'">
           </div>
+        </div>
         </div>	
        	</div>
    	   <div bs-panel class="form-actions">
