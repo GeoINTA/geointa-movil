@@ -7,7 +7,12 @@
     <h5 class="text-center">{{ubication.timestamp}}</h5>
   </div>
   <div class="panel-group" id="accordion">
-  <div class="panel panel-primary" ng-repeat="(categoryName, layers) in ubication.info" ng-include="'templates/ubicationInfoDetail.html'">
+    <div ng-if="ubication.code == 501">
+        <div class="alert alert-warning">
+          No se han recibido datos en esta ubicación
+        </div>
+      </div>
+  <div ng-if="ubication.code == 200" class="panel panel-primary" ng-repeat="(categoryName, layers) in ubication.info" ng-include="'templates/ubicationInfoDetail.html'">
     </div>
   </div>
 </div>

@@ -1,3 +1,4 @@
+{{newUbication}}
 <div class="scrollable">
  <div class="scrollable-content section">
  	<form action="" id="ubicationForm" name="Ubication">
@@ -36,7 +37,13 @@
           />
 	    </div>
 	    <div bs-panel title="Información recibida">
-			  <div class="panel-group" id="accordion">
+
+        <div ng-if="newUbication.code == 501">
+            <div class="alert alert-warning">
+              No se han recibido datos en esta ubicación
+            </div>
+        </div>
+			  <div ng-if="newUbication.code == 200" class="panel-group" id="accordion">
           <div class="panel panel-primary " ng-repeat="(categoryName, layers) in newUbication.info" ng-include="'templates/ubicationInfoDetail.html'">
           </div>
         </div>	

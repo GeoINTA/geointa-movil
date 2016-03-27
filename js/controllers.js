@@ -163,8 +163,8 @@ angular.module('geointa.controllers', [])
         }
 
         $rootScope.receiveUbicationInfo = function(coords,data){
+          console.log(data);
           if (data){ // Se recibio un JSON con informacion de una ubicacion
-            console.log(data);
             data.timestamp = $rootScope.getTimestamp();
             $rootScope.newUbication = data;
             $rootScope.newUbication.coords = ol.proj.transform(coords, 'EPSG:900913', 'EPSG:4326');
@@ -215,7 +215,7 @@ angular.module('geointa.controllers', [])
                 $rootScope.updateOverlayInfo(requestingCurrentUbicationInfo,true);
                 Ubication.requestCoordsInfo(params,function(response){
 				if (response){ // Se recibio respuesta
-					if (response.code == 200){
+					if (response.code == 200 || response.code == 501){ // 501 - NO data. Dejo al usaurio guardar el punto
 					  $rootScope.receiveUbicationInfo(coords,response); // coordenadas en 900913
 					} else {
 					  $rootScope.showMiddlewareResponseError(response);
@@ -241,9 +241,9 @@ angular.module('geointa.controllers', [])
                 case 504: // TIMEOUT_ERROR . Los servidores no han respondido
                            $rootScope.updateOverlayInfo(infoMiddlewareTimeout,true,true);
                            break;
-			         case 501: // NO_DATA . Los servidores no retornaron informacion para esa ubicacion
+			         /*case 501: // NO_DATA . Los servidores no retornaron informacion para esa ubicacion
           						   $rootScope.updateOverlayInfo(infoMiddlewareNoData,true,true);
-          						   break;
+          						   break;*/
                 case 400: // BAD_REQUEST_CODE. El cliente realizo una mala peticion (faltan parametros)
                            $rootScope.updateOverlayInfo(infoMiddlewareBadRequest,true,true);
                            break;                           
