@@ -7,11 +7,26 @@
     <h5 class="text-center">{{ubication.timestamp}}</h5>
   </div>
   <div class="panel-group" id="accordion">
-    <div ng-if="ubication.code == 501">
-        <div class="alert alert-warning">
-          No se han recibido datos en esta ubicación
+      <div ng-if="ubication.code == 500" >
+            <div class="alert alert-danger">
+              Sin datos. Ocurrió un error en uno de los servicios mientras se intentaban pedir datos para esta ubicación.
+            </div>
         </div>
-      </div>
+        <div ng-if="ubication.code == 501">
+            <div class="alert alert-warning">
+              No se han recibido datos en esta ubicación
+            </div>
+        </div>
+        <div ng-if="ubication.code == 502">
+            <div class="alert alert-danger">
+              Sin datos. Ocurrió un error en la red mientras se intentaban pedir datos para esta ubicación.
+            </div>
+        </div>
+        <div ng-if="ubication.code == 504">
+            <div class="alert alert-danger">
+             Sin datos. Ocurrió un error en uno de los servicios mientras se intentaban pedir datos para esta ubicación.
+            </div>
+        </div>
       <div ng-if="ubication.code == 200">
     <div  class="panel panel-primary" ng-repeat="(categoryName, layers) in ubication.info" ng-include="'templates/ubicationInfoDetail.html'">
       </div>

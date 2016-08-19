@@ -1,4 +1,3 @@
-{{newUbication}}
 <div class="scrollable">
  <div class="scrollable-content section">
  	<form action="" id="ubicationForm" name="Ubication">
@@ -37,10 +36,24 @@
           />
 	    </div>
 	    <div bs-panel title="Información recibida">
-
+        <div ng-if="newUbication.code == 500" >
+            <div class="alert alert-danger">
+              Ha ocurrido un error con uno de los servicios. Puede guardar la ubicación para poder pedir datos en otro momento.
+            </div>
+        </div>
         <div ng-if="newUbication.code == 501">
             <div class="alert alert-warning">
               No se han recibido datos en esta ubicación
+            </div>
+        </div>
+        <div ng-if="newUbication.code == 502">
+            <div class="alert alert-danger">
+              Ha ocurrido un error en la red. Puede guardar la ubicación para poder pedir datos en otro momento.
+            </div>
+        </div>
+        <div ng-if="newUbication.code == 504">
+            <div class="alert alert-danger">
+             Ha ocurrido un error con uno de los servicios. Puede guardar la ubicación para poder pedir datos en otro momento.
             </div>
         </div>
         <div ng-if="newUbication.code == 200">

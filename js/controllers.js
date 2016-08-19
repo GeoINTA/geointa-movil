@@ -214,16 +214,18 @@ angular.module('geointa.controllers', [])
                 params = $rootScope.getMapExtentParams(coords,$rootScope.map.getMapExtent(),GeoINTAMap.getConfiguration().currentXY,$rootScope.map.map.getSize());
                 $rootScope.updateOverlayInfo(requestingCurrentUbicationInfo,true);
                 Ubication.requestCoordsInfo(params,function(response){
-				if (response){ // Se recibio respuesta
-					if (response.code == 200 || response.code == 501){ // 501 - NO data. Dejo al usaurio guardar el punto
-					  $rootScope.receiveUbicationInfo(coords,response); // coordenadas en 900913
-					} else {
-					  $rootScope.showMiddlewareResponseError(response);
-					}
-				} else { // No se alcanzo al middleware o hubo un error
-                    $rootScope.updateOverlayInfo(middlewareNoRouteError,true,true);
-                }
-              });
+            				if (response){ // Se recibio respuesta
+            					if (response.code == 200 || response.code == 501 || response.code == 500 || response.code == 504){ // 501 - NO data. Dejo al usaurio guardar el punto
+            					  $rootScope.receiveUbicationInfo(coords,response); // coordenadas en 900913
+            					} else {
+            					  $rootScope.showMiddlewareResponseError(response);
+            					}
+            				} else { // No se alcanzo al middleware o hubo un error
+                          response = {'code':502};
+                          $rootScope.receiveUbicationInfo(coords,response); // coordenadas en 900913
+                          //$rootScope.updateOverlayInfo(middlewareNoRouteError,true,true);
+                    }
+                });
             } else {
               $rootScope.updateOverlayInfo(getInfoPosActualError,true,true);
             }
@@ -235,12 +237,12 @@ angular.module('geointa.controllers', [])
         //{info}
         $rootScope.showMiddlewareResponseError = function(response){
             switch(response.code){
-                case 500: // Error genérico
-                           $rootScope.updateOverlayInfo(infoMiddlewareGenericError,true,true);
-                           break;
-                case 504: // TIMEOUT_ERROR . Los servidores no han respondido
-                           $rootScope.updateOverlayInfo(infoMiddlewareTimeout,true,true);
-                           break;
+                //case 500: // Error genérico
+                //           $rootScope.updateOverlayInfo(infoMiddlewareGenericError,true,true);
+                //           break;
+                //case 504: // TIMEOUT_ERROR . Los servidores no han respondido
+                //           $rootScope.updateOverlayInfo(infoMiddlewareTimeout,true,true);
+                //           break;
 			         /*case 501: // NO_DATA . Los servidores no retornaron informacion para esa ubicacion
           						   $rootScope.updateOverlayInfo(infoMiddlewareNoData,true,true);
           						   break;*/
@@ -408,18 +410,20 @@ angular.module('geointa.controllers', [])
             Ubication.requestCoordsInfo(params,function(response){
               // callback success 
               if (response){ // Se recibio respuesta
-				  if (response.code == 200){
-					  ubication.info = response.info;
-					  ubication.timestamp = $rootScope.getTimestamp();
-					  Ubication.updateUbicationInfo(ubication);
-					  $rootScope.showOverlay('off');
-					  $scope.ubication = ubication;
-				  } else {
-					$rootScope.showMiddlewareResponseError(response);
-				  }
-			  } else {
-				  $rootScope.updateOverlayInfo(middlewareNoRouteError,true,true);
-			  }
+        				  if (response.code == 200 || response.code == 501 || response.code == 500 || response.code == 504){
+                    ubication.code = response.code;
+        					  ubication.info = response.info;
+        					  ubication.timestamp = $rootScope.getTimestamp();
+        					  Ubication.updateUbicationInfo(ubication);
+        					  $rootScope.showOverlay('off');
+        					  $scope.ubication = ubication;
+        				  } else {
+        					$rootScope.showMiddlewareResponseError(response);
+        				  }
+      			  } else {
+                      
+      				        $rootScope.updateOverlayInfo(middlewareNoRouteError,true,true);
+      			  }
           });
         }
     }]) // Termina DetalleUbicacionesCtrl

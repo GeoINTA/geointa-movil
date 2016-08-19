@@ -5,6 +5,8 @@
 
 
 var urlMiddlewareGeoINTAMobile = 'http://movil.geointa.inta.gob.ar/gestor/mobileservice?callback=JSON_CALLBACK';
+//var urlMiddlewareGeoINTAMobile = 'http://localhost/gestor/mobileservice?callback=JSON_CALLBACK';
+
 
 var localStorageConfiguration = "geoINTAMapConfiguration";
 var localStorageUbications = "geoINTAUbications";
@@ -167,14 +169,12 @@ angular.module('geointa.factories', [])
                     },
                     updateUbicationInfo: function(ubication){
                         var ubicationList =  getLocalStorageUbications();
-                        console.log(ubicationList);
                         for (var i = 0; i < ubicationList.length; i++) {
                             if (ubicationList[i].id === ubication.id) {
                                 ubicationList[i] = ubication;
                                 break;
                             }
                          }
-                         console.log(ubication);
                         //ubicationList.push(ubication);
                         localStorage.removeItem(localStorageUbications);
                         localStorage.setItem(localStorageUbications,JSON.stringify(ubicationList));
