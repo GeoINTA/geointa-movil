@@ -255,14 +255,15 @@ angular.module('geointa.controllers', [])
         $rootScope.requestUserGeolocation = function() {
           $rootScope.updateOverlayInfo(requestingGeolocation,true);
           $rootScope.getCurrentLocation(function(position){		  
-            var newCoords = ol.proj.transform([position.coords.longitude,position.coords.latitude], 'EPSG:4326', 'EPSG:900913');
+	    var newCoords = ol.proj.transform([position.coords.longitude,position.coords.latitude], 'EPSG:4326', 'EPSG:900913');
             var mapSize = $rootScope.map.map.getSize();
             var xy = [mapSize[0]/2,mapSize[1]/2];
             $rootScope.map.updateCurrentPosMarker(newCoords,xy);
             $rootScope.map.centerTo(newCoords);
             $rootScope.showOverlay('off');
-          },function(){ // Callback error
-              $rootScope.showOverlay('off');
+          },function(err){ // Callback error
+              console.warn('ERROR(' + err.code + '): ' + err.message);
+	      $rootScope.showOverlay('off');
               $rootScope.updateOverlayInfo(["1","2"],false);
 
           });
